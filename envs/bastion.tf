@@ -39,13 +39,13 @@ resource "oci_bastion_bastion" "this" {
 Session
 ************************************************************/
 ##### SSH port forwarding - Linux
-data "oci_core_instance" "oracle" {
-  instance_id = oci_core_instance.oracle_instance.id
-}
+# data "oci_core_instance" "oracle" {
+#   instance_id = oci_core_instance.oracle_instance.id
+# }
 resource "oci_bastion_session" "ssh_port_forwarding_oracle" {
-  # ターゲットリソースがRUNNINGでないと作成不可のためcountで制御
-  # 作成のタイミングで、Private Endpointからのインバウンドルールは不要
-  count = contains(["PROVISIONING", "STARTING", "RUNNING"], data.oci_core_instance.oracle.state) ? 1 : 0
+  # # ターゲットリソースがRUNNINGでないと作成不可のためcountで制御
+  # # 作成のタイミングで、Private Endpointからのインバウンドルールは不要
+  # count = contains(["PROVISIONING", "STARTING", "RUNNING"], data.oci_core_instance.oracle.state) ? 1 : 0
 
   display_name = "ssh-port-forwarding-session-to-oracle"
   bastion_id   = oci_bastion_bastion.this.id
@@ -63,13 +63,13 @@ resource "oci_bastion_session" "ssh_port_forwarding_oracle" {
 }
 
 ##### SSH port forwarding - Windows
-data "oci_core_instance" "windows" {
-  instance_id = oci_core_instance.windows_instance.id
-}
+# data "oci_core_instance" "windows" {
+#   instance_id = oci_core_instance.windows_instance.id
+# }
 resource "oci_bastion_session" "ssh_port_forwarding_windows" {
-  # ターゲットリソースがRUNNINGでないと作成不可のためcountで制御
-  # 作成のタイミングで、Private Endpointからのインバウンドルールは不要
-  count = contains(["PROVISIONING", "STARTING", "RUNNING"], data.oci_core_instance.windows.state) ? 1 : 0
+  # # ターゲットリソースがRUNNINGでないと作成不可のためcountで制御
+  # # 作成のタイミングで、Private Endpointからのインバウンドルールは不要
+  # count = contains(["PROVISIONING", "STARTING", "RUNNING"], data.oci_core_instance.windows.state) ? 1 : 0
 
   display_name = "ssh-port-forwarding-session-to-windows"
   bastion_id   = oci_bastion_bastion.this.id
