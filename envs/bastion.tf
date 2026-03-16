@@ -1,23 +1,23 @@
 /************************************************************
 Private Key
 ************************************************************/
-resource "tls_private_key" "ssh_keygen" {
+resource "tls_private_key" "ssh_keygen_bastion" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-resource "local_sensitive_file" "private_key" {
+resource "local_sensitive_file" "private_key_bastion" {
   filename        = "./.key/private_bastion.pem"
-  content         = tls_private_key.ssh_keygen.private_key_pem
+  content         = tls_private_key.ssh_keygen_bastion.private_key_pem
   file_permission = "0600"
 }
 
 /************************************************************
 Public Key
 ************************************************************/
-resource "local_sensitive_file" "public_key" {
+resource "local_sensitive_file" "public_key_bastion" {
   filename        = "./.key/public_bastion.pub"
-  content         = tls_private_key.ssh_keygen.public_key_openssh
+  content         = tls_private_key.ssh_keygen_bastion.public_key_openssh
   file_permission = "0600"
 }
 
@@ -58,7 +58,7 @@ resource "oci_bastion_session" "ssh_port_forwarding_oracle" {
   session_ttl_in_seconds = 10800 # minutes (Max)
   key_type               = "PUB"
   key_details {
-    public_key_content = tls_private_key.ssh_keygen.public_key_openssh
+    public_key_content = tls_private_key.ssh_keygen_bastion.public_key_openssh
   }
 }
 
@@ -82,6 +82,6 @@ resource "oci_bastion_session" "ssh_port_forwarding_windows" {
   session_ttl_in_seconds = 10800 # minutes (Max)
   key_type               = "PUB"
   key_details {
-    public_key_content = tls_private_key.ssh_keygen.public_key_openssh
+    public_key_content = tls_private_key.ssh_keygen_bastion.public_key_openssh
   }
 }
