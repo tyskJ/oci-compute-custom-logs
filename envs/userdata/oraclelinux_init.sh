@@ -20,6 +20,11 @@ systemctl stop firewalld
 systemctl disable firewalld
 systemctl mask firewalld
 
+# Nginx install
+dnf install -y nginx
+systemctl enable --now nginx
+curl localhost
+
 # SELinux disable
 grubby --update-kernel ALL --args selinux=0
 shutdown -r now
