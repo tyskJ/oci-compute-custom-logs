@@ -82,7 +82,7 @@ resource "oci_core_instance" "windows_instance" {
   }
   create_vnic_details {
     display_name = "windows-instance-vnic"
-    subnet_id    = oci_core_subnet.private_windows.id
+    subnet_id    = oci_core_subnet.private_system.id
     nsg_ids = [
       oci_core_network_security_group.sg_windows.id
     ]
