@@ -1,3 +1,17 @@
+# /************************************************************
+# Private Key
+# ************************************************************/
+resource "tls_private_key" "ssh_keygen_oracle" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_sensitive_file" "private_key_oracle" {
+  filename        = "./.key/private_oracle.pem"
+  content         = tls_private_key.ssh_keygen_oracle.private_key_pem
+  file_permission = "0600"
+}
+
 /************************************************************
 Compute (Oracle Linux)
 ************************************************************/
@@ -110,7 +124,8 @@ resource "oci_core_instance" "oracle_instance" {
     # kms_key_id                      = null
   }
   metadata = {
-    user_data = base64encode(file("./userdata/oraclelinux_init.sh"))
+    ssh_authorized_keys = tls_private_key.ssh_keygen_oracle.public_key_openssh
+    user_data           = base64encode(file("./userdata/oraclelinux_init.sh"))
   }
   defined_tags = {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
