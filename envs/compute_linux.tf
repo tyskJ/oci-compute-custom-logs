@@ -110,7 +110,7 @@ resource "oci_core_instance" "oracle_instance" {
     # kms_key_id                      = null
   }
   metadata = {
-    user_data = base64encode(file("./userdata/oracle_init.sh"))
+    user_data = base64encode(file("./userdata/oraclelinux_init.sh"))
   }
   defined_tags = {
     format("%s.%s", oci_identity_tag_namespace.common.name, oci_identity_tag_default.key_env.tag_definition_name)                = "prd"
