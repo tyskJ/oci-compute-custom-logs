@@ -11,12 +11,12 @@ resource "oci_identity_tag_namespace" "compute" {
 resource "oci_identity_tag" "key_cloudagent" {
   tag_namespace_id = oci_identity_tag_namespace.compute.id
   name             = "CloudAgent"
-  description      = "CloudAgent is installed"
+  description      = "CloudAgent is installed OS"
   is_cost_tracking = false
   is_retired       = false
   validator {
     validator_type = "ENUM"
-    values         = ["true", "false"]
+    values         = ["oracle", "windows"]
   }
 }
 
