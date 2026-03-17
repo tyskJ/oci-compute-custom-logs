@@ -12,7 +12,8 @@ timedatectl set-timezone Asia/Tokyo
 systemctl restart rsyslog
 
 # Locale
-localectl set-locale LANG=ja_JP.UTF-8
+dnf install -y langpacks-ja
+localectl set-locale LANG=ja_JP.utf8
 localectl set-keymap jp106
 
 # Firewall Service disable
