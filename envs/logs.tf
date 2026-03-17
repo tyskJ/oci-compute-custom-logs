@@ -52,14 +52,13 @@ resource "oci_logging_unified_agent_configuration" "oracle" {
     configuration_type = "LOGGING"
     sources {
       source_type = "LOG_TAIL"
-      name        = "nginx"
+      name        = "nginxlog"
       paths = [
         "/var/log/nginx/*"
       ]
       parser {
-        parser_type               = "NONE"
-        message_key               = "message"
-        is_estimate_current_event = false
+        parser_type = "NONE"
+        message_key = "logmessage"
       }
     }
     ### Select log destination
@@ -105,11 +104,9 @@ resource "oci_logging_unified_agent_configuration" "windows" {
     ### Configure log inputs
     configuration_type = "LOGGING"
     sources {
+      channels    = ["Security"]
       source_type = "WINDOWS_EVENT_LOG"
-      name        = "security"
-      channels = [
-        "Security"
-      ]
+      name        = "securitylog"
     }
     ### Select log destination
     destination {
