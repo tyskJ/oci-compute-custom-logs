@@ -72,7 +72,7 @@ resource "oci_logging_unified_agent_configuration" "oracle" {
         source {
           type = "UMA_METRICS"
           record_input {
-            namespace      = "oci_computeagent"
+            namespace      = "agent_config_oracle_instance"
             resource_group = "defaultGroup"
           }
           metrics = [
@@ -121,7 +121,7 @@ resource "oci_logging_unified_agent_configuration" "windows" {
         source {
           type = "UMA_METRICS"
           record_input {
-            namespace      = "oci_computeagent"
+            namespace      = "agent_config_windows_instance"
             resource_group = "defaultGroup"
           }
           metrics = [
