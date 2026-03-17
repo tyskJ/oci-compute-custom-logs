@@ -33,3 +33,60 @@ resource "oci_logging_log" "windows" {
   log_type           = "CUSTOM"
   defined_tags       = local.common_defined_tags
 }
+
+/************************************************************
+Agent Configurations
+************************************************************/
+resource "oci_logging_unified_agent_configuration" "oracle" {
+  compartment_id = oci_identity_compartment.workload.id
+  is_enabled     = true
+  display_name   = "oracle-linux-configuration"
+  description    = "For Oracle Linux Instance"
+  group_association {
+    group_list = [
+      oci_identity_dynamic_group.compute_oracle.id
+    ]
+  }
+  service_configuration {
+    ### Configure log inputs
+    configuration_type = "LOGGING"
+    sources {
+      source_type = "LOG_TAIL"
+      name        = "nginx"
+      paths = [
+        "/var/log/nginx/*"
+      ]
+      parser {
+        parser_type               = "NONE"
+        message_key               = "message"
+        is_estimate_current_event = false
+      }
+    }
+    ### Select log destination
+    destination {
+      log_object_id = oci_logging_log.oracle.id
+      operational_metrics_configuration {
+        destination {
+          compartment_id = oci_identity_compartment.workload.id
+        }
+        source {
+          type = "UMA_METRICS"
+          record_input {
+            namespace      = "oci_computeagent"
+            resource_group = "defaultGroup"
+          }
+          metrics = [
+            "Heartbeat",
+            "RestartMetric",
+            "EmitRecords",
+            "BufferSpaceAvailable",
+            "SlowFlushCount",
+            "RollbackCount",
+            "RetryCount"
+          ]
+        }
+      }
+    }
+  }
+  defined_tags = local.common_defined_tags
+}
