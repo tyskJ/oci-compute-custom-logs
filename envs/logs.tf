@@ -29,7 +29,7 @@ resource "oci_logging_log" "windows" {
   log_group_id       = oci_logging_log_group.windows.id
   is_enabled         = true
   retention_duration = 30
-  display_name       = "nginx"
+  display_name       = "events"
   log_type           = "CUSTOM"
   defined_tags       = local.common_defined_tags
 }
