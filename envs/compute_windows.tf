@@ -52,12 +52,12 @@ resource "oci_core_instance" "windows_instance" {
       name          = "Custom Logs Monitoring"
     }
     plugins_config {
-      desired_state = "DISABLED"
-      name          = "Compute Instance Run Command"
+      desired_state = "ENABLED"
+      name          = "Compute Instance Monitoring"
     }
     plugins_config {
       desired_state = "DISABLED"
-      name          = "Compute Instance Monitoring"
+      name          = "Compute Instance Run Command"
     }
     plugins_config {
       desired_state = "DISABLED"
