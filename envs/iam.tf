@@ -42,3 +42,16 @@ resource "oci_identity_policy" "compute_for_agent_logmoni" {
   defined_tags = local.common_defined_tags
 }
 
+resource "oci_identity_policy" "compute_for_agent_custommoni" {
+  compartment_id = oci_identity_compartment.workload.id
+  description    = "OCI Compute Policy for CloudAgent Custom Metrics Monitoring"
+  name           = "compute-cloudagent-custom-metrics-monitoring-policy"
+  statements = [
+    format("allow dynamic-group %s, %s to use metrics in compartment %s",
+      oci_identity_dynamic_group.compute_oracle.name,
+      oci_identity_dynamic_group.compute_windows.name,
+      oci_identity_compartment.workload.name
+    )
+  ]
+  defined_tags = local.common_defined_tags
+}
