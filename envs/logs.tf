@@ -90,3 +90,52 @@ resource "oci_logging_unified_agent_configuration" "oracle" {
   }
   defined_tags = local.common_defined_tags
 }
+
+resource "oci_logging_unified_agent_configuration" "windows" {
+  compartment_id = oci_identity_compartment.workload.id
+  is_enabled     = true
+  display_name   = "windows-configuration"
+  description    = "For Windows Server Instance"
+  group_association {
+    group_list = [
+      oci_identity_dynamic_group.compute_windows.id
+    ]
+  }
+  service_configuration {
+    ### Configure log inputs
+    configuration_type = "LOGGING"
+    sources {
+      source_type = "WINDOWS_EVENT_LOG"
+      name        = "security"
+      channels = [
+        "Security"
+      ]
+    }
+    ### Select log destination
+    destination {
+      log_object_id = oci_logging_log.windows.id
+      operational_metrics_configuration {
+        destination {
+          compartment_id = oci_identity_compartment.workload.id
+        }
+        source {
+          type = "UMA_METRICS"
+          record_input {
+            namespace      = "oci_computeagent"
+            resource_group = "defaultGroup"
+          }
+          metrics = [
+            "Heartbeat",
+            "RestartMetric",
+            "EmitRecords",
+            "BufferSpaceAvailable",
+            "SlowFlushCount",
+            "RollbackCount",
+            "RetryCount"
+          ]
+        }
+      }
+    }
+  }
+  defined_tags = local.common_defined_tags
+}
