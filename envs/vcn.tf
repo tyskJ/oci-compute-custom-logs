@@ -251,12 +251,3 @@ resource "oci_core_network_security_group_security_rule" "sg_windows_egress_serv
     }
   }
 }
-
-resource "oci_core_network_security_group_security_rule" "sg_windows_egress_other" {
-  network_security_group_id = oci_core_network_security_group.sg_windows.id
-  protocol                  = "all"
-  direction                 = "EGRESS"
-  destination               = "0.0.0.0/0"
-  stateless                 = false
-  destination_type          = "CIDR_BLOCK"
-}
