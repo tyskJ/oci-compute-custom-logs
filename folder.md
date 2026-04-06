@@ -13,7 +13,7 @@
     ├── data.tf                   外部データソース定義ファイル
     ├── iam.tf                    IAM定義ファイル
     ├── locals.tf                 ローカル変数定義ファイル
-    ├── logs.tf                   Logging定義ファイル
+    ├── logging.tf                Logging定義ファイル
     ├── outputs.tf                リソース戻り値定義ファイル
     ├── providers.tf              プロバイダー定義ファイル
     ├── tags.tf                   デフォルトタグ定義ファイル
